@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "EXSM3956-Assignment",
-    "slug": "EXSM3956-Assignment",
+    "name": "EXSM3956_Assignment",
+    "slug": "EXSM3956_Assignment",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
