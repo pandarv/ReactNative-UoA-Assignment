@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { SafeAreaView, StyleSheet, Text, View, TextInput, Button } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
 import { stringifyValueWithProperty } from "react-native-web/dist/cjs/exports/StyleSheet/compiler";
-export default function BirthdayInputVal() {
+import BirthdayWish from "./BirthdayWish";
+
+export default function BirthdayInputVal({ navigation }) {
 	const [inputVal, onChangeInputVal] = React.useState("");
 	const [value, setValue] = React.useState("");
 	console.log(inputVal);
@@ -35,6 +38,9 @@ export default function BirthdayInputVal() {
 
 	return (
 		<View style={styles.container}>
+			<View style={styles.topContainer}>
+				<Text style={styles.textSize}>Birthdate Notification</Text>
+			</View>
 			<View style={styles.bottomContainer}>
 				<Text>After Today's Press: {value}</Text>
 				<Text>On change Value: {inputVal}</Text>
@@ -43,7 +49,12 @@ export default function BirthdayInputVal() {
 				<TextInput style={styles.input} value={inputVal} onChangeText={(newText) => onChangeInputVal(dateFormater(newText))} placeholder="yyyy-mm-dd" />
 			</View>
 			<View style={styles.buttonSetting}>
-				<Button title="Validation" onPress={onClickValidate} />
+				<Button
+					title="Validation"
+					onPress={() => {
+						navigation.navigate("Wish", { birthdate: value });
+					}}
+				/>
 				<Button title="Today?" onPress={onClickHandle} />
 			</View>
 		</View>
@@ -51,10 +62,11 @@ export default function BirthdayInputVal() {
 }
 const styles = StyleSheet.create({
 	container: {
-		flex: 0.7,
+		flex: 1,
 		alignItems: "center",
 		justifyContent: "top",
 		padding: 10,
+		backgroundColor: "white",
 	},
 	input: {
 		height: 40,
@@ -70,6 +82,7 @@ const styles = StyleSheet.create({
 		fontSize: 32,
 	},
 	topContainer: {
+		flex: 0.4,
 		justifyContent: "center",
 		alignItems: "center",
 		padding: 24,
