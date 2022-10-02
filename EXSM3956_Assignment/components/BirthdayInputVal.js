@@ -5,27 +5,36 @@ import { stringifyValueWithProperty } from "react-native-web/dist/cjs/exports/St
 import BirthdayWish from "./BirthdayWish";
 
 export default function BirthdayInputVal({ navigation }) {
-	const [inputVal, onChangeInputVal] = React.useState("");
+	const [inputDateValue, onChangeInputDateVal] = React.useState("");
 	const [value, setValue] = React.useState("");
-	console.log(inputVal);
-	const onClickHandle = () => {
-		setValue(inputVal);
-		onChangeInputVal("");
-	};
+	const [error, setError] = React.useState("");
+
 	const onClickValidate = () => {
-		console.log(inputVal);
+		const newDate = dateDisplay(inputDateValue).toDateString();
+		if (newDate == "Invalid Date") {
+			setError(newDate);
+		} else {
+			setValue(newDate);
+		}
+		onChangeInputDateVal("");
 	};
 	const dateDisplay = (val) => {
+		console.log("Val: " + val);
 		const d = new Date(val);
-		const date = d.getDate() + 1;
-		const month = d.getMonth() + 1;
-		const year = d.getFullYear();
-		return `${month} - ${date} - ${year}`;
+		const userTimezoneOffset = d.getTimezoneOffset() * 60000;
+		const newD = new Date(d.getTime() + userTimezoneOffset);
+		const now = new Date();
+		console.log(`Currect: ${now} Given: ${d} ModDate: ${newD}`);
+		// console.log(`${month} - ${date} - ${year}`);
+		return newD;
 	};
 	// dateDisplay(value);
-	console.log(new Date().toDateString());
+	console.log(value);
+	// console.log(dateDisplay(value).toDateString());
+	// console.log(new Date(value) == new Date());
 
 	const dateFormater = (inputData) => {
+		setError("");
 		const onlyDigits = inputData.replace(/[^\d]/g, "");
 		if (onlyDigits.length < 5) {
 			return onlyDigits;
@@ -39,23 +48,25 @@ export default function BirthdayInputVal({ navigation }) {
 	return (
 		<View style={styles.container}>
 			<View style={styles.topContainer}>
-				<Text style={styles.textSize}>Birthdate Notification</Text>
+				<Text style={styles.textSize}>Birthdate</Text>
 			</View>
 			<View style={styles.bottomContainer}>
-				<Text>After Today's Press: {value}</Text>
-				<Text>On change Value: {inputVal}</Text>
-				<Text>On change Value: {new Date("2012-12-12").toLocaleDateString()}</Text>
-				<Text>On change Value: {dateDisplay(value)}</Text>
-				<TextInput style={styles.input} value={inputVal} onChangeText={(newText) => onChangeInputVal(dateFormater(newText))} placeholder="yyyy-mm-dd" />
+				<Text>After Today's Button Click: {value}</Text>
+				<Text>On change Value: {inputDateValue}</Text>
+				<TextInput style={styles.input} value={inputDateValue} onChangeText={(newText) => onChangeInputDateVal(dateFormater(newText))} placeholder="yyyy-mm-dd" />
+			</View>
+			<View>
+				<Text>{new Date(value) > Date.now() ? "You are not Born Yet" : ""}</Text>
+				<Text>{error && "Invalid Error"}</Text>
 			</View>
 			<View style={styles.buttonSetting}>
+				<Button title="Validation" onPress={onClickValidate} />
 				<Button
-					title="Validation"
+					title="Today?"
 					onPress={() => {
 						navigation.navigate("Wish", { birthdate: value });
 					}}
 				/>
-				<Button title="Today?" onPress={onClickHandle} />
 			</View>
 		</View>
 	);
