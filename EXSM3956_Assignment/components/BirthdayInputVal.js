@@ -12,7 +12,10 @@ export default function BirthdayInputVal({ navigation }) {
 	const onClickValidate = () => {
 		const newDate = dateDisplay(inputDateValue).toDateString();
 		if (newDate == "Invalid Date") {
-			setError(newDate);
+			setError("Invalid Date. Please Enter correct date.");
+			// }
+			// else if (new Date(newDate) > new Date()) {
+			// 	setError("You are not Born Yet");
 		} else {
 			setValue(newDate);
 		}
@@ -30,6 +33,8 @@ export default function BirthdayInputVal({ navigation }) {
 	};
 	// dateDisplay(value);
 	console.log(value);
+
+	console.log(new Date(value) > new Date());
 	// console.log(dateDisplay(value).toDateString());
 	// console.log(new Date(value) == new Date());
 
@@ -56,13 +61,14 @@ export default function BirthdayInputVal({ navigation }) {
 				<TextInput style={styles.input} value={inputDateValue} onChangeText={(newText) => onChangeInputDateVal(dateFormater(newText))} placeholder="yyyy-mm-dd" />
 			</View>
 			<View>
-				<Text>{new Date(value) > Date.now() ? "You are not Born Yet" : ""}</Text>
-				<Text>{error && "Invalid Error"}</Text>
+				{/* <Text>{new Date(value) > Date.now() ? "You are not Born Yet" : ""}</Text> */}
+				<Text>{error && error}</Text>
 			</View>
 			<View style={styles.buttonSetting}>
 				<Button title="Validation" onPress={onClickValidate} />
 				<Button
 					title="Today?"
+					disabled={!error || inputDateValue.length ? false : true}
 					onPress={() => {
 						navigation.navigate("Wish", { birthdate: value });
 					}}
