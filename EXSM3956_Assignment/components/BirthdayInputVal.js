@@ -5,12 +5,13 @@ import { NavigationContainer } from "@react-navigation/native";
 import BirthdayWish from "./BirthdayWish";
 
 export default function BirthdayInputVal({ navigation }) {
-    const [inputDateValue, onChangeInputDateVal] = React.useState("");
-    const [value, setValue] = React.useState("");
-    const [error, setError] = React.useState("");
-    const [age, setAge] = React.useState("");
-    const [birthday, setBirthday] = React.useState("");
-    const [toggle, setToggle] = React.useState(true);
+    const [inputDateValue, onChangeInputDateVal] = useState("");
+    const [value, setValue] = useState("");
+    const [error, setError] = useState("");
+    const [age, setAge] = useState("");
+    const [birthday, setBirthday] = useState("");
+    const [nextBirthday, setNextBirthday] = useState("");
+    const [toggle, setToggle] = useState(true);
     const inputFocus = useRef(null);
 
     useEffect(() => {
@@ -48,8 +49,13 @@ export default function BirthdayInputVal({ navigation }) {
                 const modDay = day.length == 1 ? "0" + day : day;
                 const yearsOld = (Date.now() - Date.parse(newDate)) / (1000 * 60 * 60 * 24 * 365.25);
                 const getYear = new Date(newDate).getFullYear() + Math.floor(yearsOld);
+                const nextYear = getYear + 1;
+                console.log(nextYear);
                 setBirthday(
                     dateDisplay(`${getYear}-${modMonth}-${modDay}`).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })
+                );
+                setNextBirthday(
+                    dateDisplay(`${nextYear}-${modMonth}-${modDay}`).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })
                 );
                 setAge(`Year: ${Math.floor(yearsOld)}`);
                 setValue(newDate);
@@ -96,6 +102,7 @@ export default function BirthdayInputVal({ navigation }) {
                 <Text>DOB: {value}</Text>
                 <Text>Age: {age}</Text>
                 <Text>Last Birthday: {birthday}</Text>
+                <Text>Next Birthday: {nextBirthday}</Text>
                 <Text>On change Value: {inputDateValue}</Text>
                 <TextInput
                     ref={inputFocus}
@@ -115,7 +122,7 @@ export default function BirthdayInputVal({ navigation }) {
                     title="Today?"
                     disabled={toggle ? true : false}
                     onPress={() => {
-                        navigation.navigate("Wish", { birthdate: value });
+                        navigation.navigate("Wish", { birthdate: nextBirthday });
                     }}
                 />
             </View>
@@ -128,14 +135,17 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "top",
         padding: 10,
-        backgroundColor: "white",
+        // backgroundColor: "white",
+        // backgroundColor: "#d6cbc1",
+        backgroundColor: "rgb(183, 170, 191)",
     },
     input: {
         height: 40,
         margin: 12,
         borderWidth: 1,
         borderColor: "rgb(116, 116, 255)",
-        backgroundColor: "rgb(200, 200, 255)",
+        // backgroundColor: "rgb(200, 200, 255)",
+        backgroundColor: "rgb(183, 170, 191)",
         borderRadius: 8,
         paddingVertical: 8,
         paddingHorizontal: 12,
