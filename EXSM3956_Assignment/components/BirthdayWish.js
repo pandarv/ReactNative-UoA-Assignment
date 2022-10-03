@@ -26,11 +26,13 @@ const BirthdayWish = ({ navigation, route }) => {
 			clearInterval(interval);
 		};
 	});
-
 	return (
 		<View style={styles.container}>
 			<View style={styles.topContainer}>
-				<Text>Your Birthdate is on: {birthdate}</Text>
+				<Text>Your Next Birthdate is on: {birthdate}.</Text>
+				<Text>
+					Your Next Birthdate is {timeRemaining.dayRemaining} {timeRemaining.dayRemaining.toString().length == 1 ? "day" : "days"} away from today.
+				</Text>
 				<Text style={styles.heading}>{bDay ? "Today is your Birthday" : "Birthday Coutdown"}</Text>
 			</View>
 			<View style={styles.bottomContainer}>
@@ -40,20 +42,22 @@ const BirthdayWish = ({ navigation, route }) => {
 					</View>
 				) : (
 					<View style={styles.direction}>
-						<Text style={styles.marginAround}>Days: {timeRemaining.dayRemaining}</Text>
-						<Text style={styles.marginAround}>Hours: {timeRemaining.hoursRemaining}</Text>
-						<Text style={styles.marginAround}>Minuts: {timeRemaining.minRemaining}</Text>
-						<Text style={styles.marginAround}>Seconds: {timeRemaining.secondsRemaining}</Text>
+						<Text style={styles.marginAround}>
+							{timeRemaining.dayRemaining.toString().length == 1 ? "Day" : "Days"}: {timeRemaining.dayRemaining}
+						</Text>
+						<Text style={styles.marginAround}>Hrs: {timeRemaining.hoursRemaining.toString().padStart(2, "0")}</Text>
+						<Text style={styles.marginAround}>Min: {timeRemaining.minRemaining.toString().padStart(2, "0")}</Text>
+						<Text style={styles.marginAround}>Sec: {timeRemaining.secondsRemaining.toString().padStart(2, "0")}</Text>
 					</View>
 				)}
 			</View>
-			{/* <Button
-                title="Back"
-                // disabled={!error || inputDateValue.length ? false : true}
-                onPress={() => {
-                    navigation.navigate("Home");
-                }}
-            /> */}
+			<Button
+				title="Back"
+				// disabled={!error || inputDateValue.length ? false : true}
+				onPress={() => {
+					navigation.navigate("Home");
+				}}
+			/>
 		</View>
 	);
 };

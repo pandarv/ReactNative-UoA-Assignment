@@ -113,7 +113,7 @@ export default function BirthdayInputVal({ navigation }) {
 					title="Today?"
 					disabled={toggle ? true : false}
 					onPress={() => {
-						navigation.navigate("Wish", { birthdate: nextBirthday });
+						navigation.navigate("Birthday", { birthdate: nextBirthday });
 					}}
 				/>
 			</View>
