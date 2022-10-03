@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { SafeAreaView, StyleSheet, Text, View, TextInput, Button } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 // import { stringifyValueWithProperty } from "react-native-web/dist/cjs/exports/StyleSheet/compiler";
@@ -10,20 +10,26 @@ export default function BirthdayInputVal({ navigation }) {
     const [error, setError] = React.useState("");
     const [age, setAge] = React.useState("");
     const [birthday, setBirthday] = React.useState("");
-    const [toggle, setToggle] = React.useState(false);
+    const [toggle, setToggle] = React.useState(true);
+    const inputFocus = useRef(null);
 
+    useEffect(() => {
+        inputFocus.current.focus();
+    }, []);
     const onClickValidate = () => {
         if (inputDateValue.length < 10) {
             setError("Please fillout yyyy-mm-dd");
+            setToggle(true);
         } else {
             const newDate = dateDisplay(inputDateValue).toDateString();
             const years = new Date().getFullYear() - new Date(newDate).getFullYear();
-            // console.log(newDate);
             if (newDate == "Invalid Date") {
                 // setToggle(false);
                 setError("Invalid Date. Please Enter correct date.");
+                setToggle(true);
             } else if (new Date(newDate) > new Date()) {
                 setError("You are not Born Yet");
+                setToggle(true);
                 // setToggle(false);
                 // } else if ((new Date(newDate).getMonth() && new Date(newDate).getDate()) > (new Date().getMonth() && new Date().getDate())) {
                 //     console.log("Here: " + years);
@@ -47,7 +53,7 @@ export default function BirthdayInputVal({ navigation }) {
                 );
                 setAge(`Year: ${Math.floor(yearsOld)}`);
                 setValue(newDate);
-                setToggle((prev) => !prev);
+                setToggle(false);
             }
         }
         onChangeInputDateVal("");
@@ -92,6 +98,7 @@ export default function BirthdayInputVal({ navigation }) {
                 <Text>Last Birthday: {birthday}</Text>
                 <Text>On change Value: {inputDateValue}</Text>
                 <TextInput
+                    ref={inputFocus}
                     style={styles.input}
                     value={inputDateValue}
                     onChangeText={(newText) => onChangeInputDateVal(dateFormater(newText))}
