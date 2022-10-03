@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { SafeAreaView, StyleSheet, Text, View, TextInput, Button } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 // import { stringifyValueWithProperty } from "react-native-web/dist/cjs/exports/StyleSheet/compiler";
-import BirthdayWish from "./BirthdayWish";
+// import BirthdayWish from "./BirthdayWish";
 
 export default function BirthdayInputVal({ navigation }) {
 	const [inputDateValue, onChangeInputDateVal] = useState("");

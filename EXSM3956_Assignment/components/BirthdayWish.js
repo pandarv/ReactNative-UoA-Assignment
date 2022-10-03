@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { SafeAreaView, StyleSheet, Text, View, TextInput, Button } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import BirthdayInputVal from "./BirthdayInputVal";
+// import BirthdayInputVal from "./BirthdayInputVal";
 
 const BirthdayWish = ({ navigation, route }) => {
 	const [timeRemaining, setTimeRemaining] = useState({ dayRemaining: "", hoursRemaining: "", minRemaining: "", secondsRemaining: "" });
